@@ -1,19 +1,28 @@
 #!/usr/bin/env bash
 
+output () {
+	while read line;
+	do
+		echo "       $line" || true
+	done
+}
+
 clean_dir() {
-    	cd $1
-    	if [ -f ".slugcleanup" ]; then
-		echo "-----> Found slugcleanup"
-		sed -e 's/#.*$//' -e '/^$/d' .slugcleanup | while read -r p; do
-			echo "Removing $(readlink -f $p)"
-			rm -rf $(readlink -f $p)
-		done
-        	rm .slugcleanup
-	fi
+	cd $1
+	
+	sed -e 's/#.*$//' -e '/^$/d' .slugcleanup | while read -r p; do
+		echo "Removing $(readlink -f $p)"
+		rm -rf $(readlink -f $p)
+	done
+	rm .slugcleanup
+
 	cd -
 }
 
-clean_dir $1
+if [ -f ".slugcleanup" ]; then
+	echo "-----> Found slugcleanup"
+	clean_dir $1 | output
+fi
 
 if [ -f "$3/NODE_APP" ]; then
 	clean_dir $1/$(cat "$3/NODE_APP")
