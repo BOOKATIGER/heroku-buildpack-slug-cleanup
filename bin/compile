@@ -9,21 +9,19 @@ output () {
 
 clean_dir() {
 	cd $1
-	
-	sed -e 's/#.*$//' -e '/^$/d' .slugcleanup | while read -r p; do
-		echo "Removing $(readlink -f $p)"
-		rm -rf $(readlink -f $p)
-	done
-	rm .slugcleanup
-
+	if [ -f ".slugcleanup" ]; then
+		echo "- Found .slugcleanup -> folder=$1"
+		sed -e 's/#.*$//' -e '/^$/d' .slugcleanup | while read -r p; do
+			echo "Removing $(readlink -f $p)"
+			rm -rf $(readlink -f $p)
+		done
+        	rm .slugcleanup
+	fi
 	cd -
 }
 
-if [ -f ".slugcleanup" ]; then
-	echo "-----> Found slugcleanup"
-	clean_dir $1 | output
-fi
+clean_dir $1 | output
 
 if [ -f "$3/NODE_APP" ]; then
-	clean_dir $1/$(cat "$3/NODE_APP")
+	clean_dir $1/$(cat "$3/NODE_APP") | output
 fi
