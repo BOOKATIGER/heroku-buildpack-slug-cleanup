@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
 
-if [ -f "$1/.slugcleanup" ]; then
-  echo "Cleanup"
-
-  exit 0
-fi
-
-exit 1
+echo "Cleanup"
+exit 0
