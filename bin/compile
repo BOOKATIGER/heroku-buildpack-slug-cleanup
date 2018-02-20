@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+clean_dir() {
+    	cd $1
+    	if [ -f ".slugcleanup" ]; then
+		echo "-----> Found slugcleanup"
+		while read p; do
+			echo "Removing $(readlink -f $p)"
+			rm -rf $(readlink -f $p)
+		done <.slugcleanup
+        	rm .slugcleanup
+	fi
+	cd -
+}
+
+clean_dir $1
+
+if [ -f "$3/NODE_APP" ]; then
+	clean_dir $1/$(cat "$3/NODE_APP")
+fi
