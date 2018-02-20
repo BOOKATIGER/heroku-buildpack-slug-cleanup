@@ -4,10 +4,10 @@ clean_dir() {
     	cd $1
     	if [ -f ".slugcleanup" ]; then
 		echo "-----> Found slugcleanup"
-		while read p; do
+		sed -e 's/#.*$//' -e '/^$/d' .slugcleanup | while read -r p; do
 			echo "Removing $(readlink -f $p)"
 			rm -rf $(readlink -f $p)
-		done <.slugcleanup
+		done
         	rm .slugcleanup
 	fi
 	cd -
