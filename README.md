@@ -1,10 +1,10 @@
-# heroku-buildpack-cleanup-folder
+# heroku-buildpack-slug-cleanup
 
 Remove files that are specified in a .slugcleanup file.
 
 ## Usage
 
-    $ heroku buildpacks:add https://github.com/BOOKATIGER/heroku-buildpack-cleanup-folder.git
+    $ heroku buildpacks:add https://github.com/BOOKATIGER/heroku-buildpack-slug-cleanup
     $ heroku config:set NODE_APP="my_app"
 
 
