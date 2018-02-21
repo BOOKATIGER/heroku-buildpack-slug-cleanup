@@ -1,0 +1,10 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+script:
+  - docker build -t bookatiger/heroku-buildpack-slug-cleanup .
+  - docker run -it bookatiger/heroku-buildpack-slug-cleanup
