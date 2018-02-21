@@ -15,7 +15,7 @@ The purpose is to reduce Your slugsize in case you have multiple projects in you
 
 ## Tests
 
-You can run test for this repository by using docker or docker-compose:
+You can run tests for this repository by using docker or docker-compose:
 ```bash
 # docker-compose
 $ docker-compose up
