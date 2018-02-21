@@ -15,7 +15,7 @@ clean_dir() {
 			echo "  Removing $(readlink -f $p)"
 			rm -rf $(readlink -f $p)
 		done
-        	rm .slugcleanup
+        rm .slugcleanup
 	fi
 	cd -
 }
