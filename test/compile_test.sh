@@ -79,3 +79,49 @@ EOF
         fail "One or more files weren't properly removed"
     fi
 }
+
+# Test the buildpack  with a .slugcleanup with directories, empty lines and comments
+# Also check that other files aren't deleted
+testCompileSlugCleanupPresentFileskeeping()
+{
+    cat <<EOF  > $BUILD_DIR/.slugcleanup
+testfile # which doesn't exist and shouldn't crash anything
+
+# this is a comment
+foo/bar
+foo
+EOF
+    mkdir $BUILD_DIR/foo
+    mkdir $BUILD_DIR/kept
+
+    echo "we will delete this file :("  > $BUILD_DIR/foo/bar
+    echo "we will keep this file :D"    > $BUILD_DIR/keeping
+
+    compile
+
+    # Assert no errors
+    assertEquals 0 ${rtrn}
+    assertEquals "" "$(cat ${STD_ERR})"
+    
+    assertContains "$BUILD_DIR/foo" "$(cat ${STD_OUT})"
+    assertContains "$BUILD_DIR/foo/bar" "$(cat ${STD_OUT})"
+    assertContains "$BUILD_DIR/testfile" "$(cat ${STD_OUT})"
+
+    # We shouldn't find the commented lines in the output
+    assertNotContains "this is a comment" "$(cat ${STD_OUT})"
+    assertNotContains "which doesn't exist and shouldn't crash anything" "$(cat ${STD_OUT})"
+
+    # We shouldn't delete files not listed in the .slugcleanup
+    assertNotContains "$BUILD_DIR/keeping" "$(cat ${STD_OUT})"
+
+    # Check the content hasn't changed
+    assertEquals "$(cat ${BUILD_DIR}/keeping)" "we will keep this file :D"
+
+    if [ -d $BUILD_DIR/foo ] || [ -f $BUILD_DIR/foo/bar ] || [ -f $BUILD_DIR/.slugcleanup ]; then
+        fail "One or more files/folders weren't properly removed"
+    fi
+
+    if [ ! -f $BUILD_DIR/keeping ] || [ ! -d $BUILD_DIR/kept ]; then
+        fail "One or more files/folders not listed in the .slugcleanup were removed"
+    fi
+}
