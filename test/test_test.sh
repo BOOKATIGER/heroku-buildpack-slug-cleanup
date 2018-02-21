@@ -1,1 +1,3 @@
-assertEquals 1 1
+testEquality() {
+  assertEquals 1 1
+}
