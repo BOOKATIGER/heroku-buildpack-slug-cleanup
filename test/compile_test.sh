@@ -42,7 +42,7 @@ testCompileSlugCleanupPresent()
     # We should found the reference to the file we deleted in the logs
     assertContains "${BUILD_DIR}/test" "$(cat ${STD_OUT})"
 
-    # If the test file and .slugcleanup should be removed
+    # The test file and .slugcleanup should be removed
     if [ -f $BUILD_DIR/test ] || [ -f $BUILD_DIR/.slugcleanup ]; then
         fail $(cat ${BUILD_DIR}/test)
     fi
