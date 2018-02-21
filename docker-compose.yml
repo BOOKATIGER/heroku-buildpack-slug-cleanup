@@ -1,0 +1,6 @@
+version: '3'
+services:
+  buildback-test:
+    image: heroku/buildpack-testrunner
+    volumes:
+      - ./:/app/buildpack:ro
