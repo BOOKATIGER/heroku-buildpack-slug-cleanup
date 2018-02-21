@@ -1,4 +1,4 @@
-# heroku-buildpack-slug-cleanup
+# heroku-buildpack-slug-cleanup [![Build Status](https://travis-ci.org/BOOKATIGER/heroku-buildpack-slug-cleanup.svg?branch=master)](https://travis-ci.org/BOOKATIGER/heroku-buildpack-slug-cleanup)
 
 Remove files that are specified in a .slugcleanup file.
 
